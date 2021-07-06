@@ -1,16 +1,24 @@
 package com.bezkoder.spring.springpageable.dto;
 
 import com.bezkoder.spring.springpageable.entity.Tabela;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class PaginaTabelaDTO {
 
     private List<Tabela> tabelas;
     private Integer currentPage;
     private Long totalItems;
     private Integer totalPages;
-
+/*
     public List<Tabela> getTabelas() {
         return tabelas;
     }
@@ -41,5 +49,5 @@ public class PaginaTabelaDTO {
 
     public void setTotalPages(Integer totalPages) {
         this.totalPages = totalPages;
-    }
+    }*/
 }
