@@ -1,6 +1,6 @@
 package com.bezkoder.spring.springpageable.resource;
 
-import com.bezkoder.spring.springpageable.dto.PaginaTabelaDTO;
+import com.bezkoder.spring.springpageable.dto.PaginaDTO;
 import com.bezkoder.spring.springpageable.entity.Tabela;
 import com.bezkoder.spring.springpageable.repository.TabelaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +28,7 @@ public class TableResource {
     private TabelaRepository tabelaRepository;
 
     @GetMapping("/tabelas")
-    public ResponseEntity<PaginaTabelaDTO> getAllTutorials(
+    public ResponseEntity<PaginaDTO> getAllTutorials(
             @RequestParam(required = false) String nome,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
@@ -46,14 +46,15 @@ public class TableResource {
 
             List<Tabela> tabelas = pageTuts.getContent();
 
-            PaginaTabelaDTO paginaTabelaDTO = new PaginaTabelaDTO();
+            PaginaDTO paginaDTO = PaginaDTO
+                    .builder()
+                    .objects(tabelas)
+                    .currentPage(pageTuts.getNumber())
+                    .totalItems(pageTuts.getTotalElements())
+                    .totalPages(pageTuts.getTotalPages())
+                    .build();
 
-            paginaTabelaDTO.setTabelas(tabelas);
-            paginaTabelaDTO.setCurrentPage(pageTuts.getNumber());
-            paginaTabelaDTO.setTotalItems(pageTuts.getTotalElements());
-            paginaTabelaDTO.setTotalPages(pageTuts.getTotalPages());
-
-            return ResponseEntity.ok().body(paginaTabelaDTO);
+            return ResponseEntity.ok().body(paginaDTO);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
